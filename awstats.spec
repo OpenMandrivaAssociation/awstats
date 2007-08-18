@@ -42,11 +42,6 @@ find . -type f -exec chmod 644 {} \;
 find . -name *.pl -exec chmod 755 {} \;
 rm -f  wwwroot/cgi-bin/plugins/.#geoip_city_maxmind.pm.1.8
 
-# fix encoding
-for file in `find . -type f`; do
-    perl -pi -e 'BEGIN {exit unless -T $ARGV[0];} s/\r\n$/\n/;' $file
-done
-
 %build
 
 %install
