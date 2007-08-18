@@ -1,5 +1,5 @@
 Name:		awstats
-Version:	6.6
+Version:	6.7
 Release:	%mkrel 1
 Summary:	Advanced Web Statistics
 License:	GPL
