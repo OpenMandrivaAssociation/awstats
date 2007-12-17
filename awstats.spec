@@ -19,7 +19,6 @@ BuildRequires:	rpm-mandriva-setup >= 1.23
 %endif
 BuildRequires:	rpm-helper >= 0.16
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 Advanced Web Statistics is a powerful and featureful tool that generates
