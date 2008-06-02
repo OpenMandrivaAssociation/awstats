@@ -75,7 +75,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}
 install -d -m 755 %{buildroot}%{_var}/www/cgi-bin
 install -d -m 755 %{buildroot}%{_var}/www/%{name}
 install -d -m 755 %{buildroot}%{_datadir}/%{name}
-install -d -m 755 %{buildroot}%{_localstatedir}/%{name}
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
 
 install -m 755 wwwroot/cgi-bin/awstats.pl %{buildroot}%{_var}/www/%{name}
 install -m 644 wwwroot/cgi-bin/awstats.model.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
@@ -108,7 +108,7 @@ fi
 %config(noreplace) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/cron.daily/%{name}
 %{_datadir}/%{name}
-%{_localstatedir}/%{name}
+%{_localstatedir}/lib/%{name}
 %{_var}/www/%{name}
 
 
