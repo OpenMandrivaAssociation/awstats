@@ -1,12 +1,12 @@
 Name:		awstats
-Version:	6.7
-Release:	%mkrel 3
+Version:	6.8
+Release:	%mkrel 1
 Summary:	Advanced Web Statistics
 License:	GPL
 Group:		Networking/WWW
 URL:		http://awstats.sourceforge.net
 Source0:	http://prdownloads.sourceforge.net/awstats/%{name}-%{version}.tar.bz2
-Patch0:		awstats-6.5-conf.patch
+Patch0:		awstats-6.8-better-configuration.patch
 Requires:	apache
 # webapp macros and scriptlets
 Requires(post):		rpm-helper >= 0.16
@@ -36,7 +36,7 @@ The program also supports virtual servers, plugins and a lot of features.
 
 %prep
 %setup -q
-%patch0 -b .defaultconf
+%patch -p 1 -b .defaultconf
 # fix perms
 find . -type f -exec chmod 644 {} \;
 find . -name *.pl -exec chmod 755 {} \;
