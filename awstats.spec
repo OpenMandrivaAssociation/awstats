@@ -1,6 +1,6 @@
 Name:		awstats
 Version:	6.95
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	Advanced Web Statistics
 License:	GPLv2
 Group:		Networking/WWW
@@ -11,12 +11,7 @@ Requires:	apache
 # webapp macros and scriptlets
 Requires(post):		rpm-helper >= 0.16
 Requires(postun):	rpm-helper >= 0.16
-%if %mdkversion < 200700
-BuildRequires:	apache-base >= 2.0.54
-BuildRequires:	rpm-mandriva-setup >= 1.5
-%else
 BuildRequires:	rpm-mandriva-setup >= 1.23
-%endif
 BuildRequires:	rpm-helper >= 0.16
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}
@@ -52,12 +47,16 @@ install -d -m 755 %{buildroot}%{_webappconfdir}
 cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
 # Awstats configuration
 
-Alias /awstats %{_var}/www/%{name}
-<Directory %{_var}/www/%{name}>
+Alias /awstats %{_datadir}/%{name}/www
+<Directory %{_datadir}/%{name}/www>
+    Order allow,deny
+    Allow from 127.0.0.1
+    Deny from all
+    ErrorDocument 403 "Access denied per %{_webappconfdir}/%{name}.conf"
+
     Options ExecCGI
     AddHandler cgi-script .pl
     DirectoryIndex awstats.pl
-    Allow from all
 </Directory>
 
 SetEnv PERL5LIB %{_datadir}/%{name}/lib:%{_datadir}/%{name}/plugins
@@ -67,27 +66,27 @@ EOF
 install -d -m 755 %{buildroot}%{_sysconfdir}/cron.daily
 cat > %{buildroot}%{_sysconfdir}/cron.daily/%{name} <<EOF
 #!/bin/sh
-%{_var}/www/awstats/awstats.pl -config=awstats.conf -update > /dev/null
+%{_datadir}/%{name}/www/awstats.pl -config=awstats.conf -update > /dev/null
 EOF
 chmod 755 %{buildroot}%{_sysconfdir}/cron.daily/%{name}
 
 install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}
-install -d -m 755 %{buildroot}%{_var}/www/cgi-bin
-install -d -m 755 %{buildroot}%{_var}/www/%{name}
-install -d -m 755 %{buildroot}%{_datadir}/%{name}
-install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
-
-install -m 755 wwwroot/cgi-bin/awstats.pl %{buildroot}%{_var}/www/%{name}
 install -m 644 wwwroot/cgi-bin/awstats.model.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
+
+
+install -d -m 755 %{buildroot}%{_datadir}/%{name}
+install -d -m 755 %{buildroot}%{_datadir}/%{name}/www
+install -m 755 wwwroot/cgi-bin/awstats.pl %{buildroot}%{_datadir}/%{name}/www
+cp -r wwwroot/icon %{buildroot}%{_datadir}/%{name}/www
+cp -r wwwroot/css %{buildroot}%{_datadir}/%{name}/www
+cp -r wwwroot/js %{buildroot}%{_datadir}/%{name}/www
 
 cp -r tools %{buildroot}%{_datadir}/%{name}
 cp -r wwwroot/cgi-bin/lang %{buildroot}%{_datadir}/%{name}
 cp -r wwwroot/cgi-bin/lib %{buildroot}%{_datadir}/%{name}
 cp -r wwwroot/cgi-bin/plugins %{buildroot}%{_datadir}/%{name}
 
-cp -r wwwroot/icon %{buildroot}%{_var}/www/%{name}
-cp -r wwwroot/css %{buildroot}%{_var}/www/%{name}
-cp -r wwwroot/js %{buildroot}%{_var}/www/%{name}
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
 
 %clean
 rm -rf %{buildroot}
@@ -109,6 +108,3 @@ fi
 %config(noreplace) %{_sysconfdir}/cron.daily/%{name}
 %{_datadir}/%{name}
 %{_localstatedir}/lib/%{name}
-%{_var}/www/%{name}
-
-
