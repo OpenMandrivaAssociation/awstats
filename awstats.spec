@@ -1,6 +1,6 @@
 Name:		awstats
 Version:	6.95
-Release:	%mkrel 2
+Release:	%mkrel 3
 Summary:	Advanced Web Statistics
 License:	GPLv2
 Group:		Networking/WWW
@@ -8,11 +8,6 @@ URL:		http://awstats.sourceforge.net
 Source0:	http://prdownloads.sourceforge.net/awstats/%{name}-%{version}.tar.gz
 Patch0:		awstats-6.9-better-configuration.patch
 Requires:	apache
-# webapp macros and scriptlets
-Requires(post):		rpm-helper >= 0.16
-Requires(postun):	rpm-helper >= 0.16
-BuildRequires:	rpm-mandriva-setup >= 1.23
-BuildRequires:	rpm-helper >= 0.16
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
@@ -50,9 +45,7 @@ cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
 Alias /awstats %{_datadir}/%{name}/www
 <Directory %{_datadir}/%{name}/www>
     Order allow,deny
-    Allow from 127.0.0.1
-    Deny from all
-    ErrorDocument 403 "Access denied per %{_webappconfdir}/%{name}.conf"
+    Allow from all
 
     Options ExecCGI
     AddHandler cgi-script .pl
@@ -95,10 +88,14 @@ rm -rf %{buildroot}
 if [ $1 -eq 1 ]; then
 	perl -pi -e 's/SiteDomain=""/SiteDomain="'`hostname`'"/' %{_sysconfdir}/%{name}/%{name}.conf
 fi
-%_post_webapp
+%if %mdkversion < 201000
+    %_post_webapp
+%endif
 
 %postun
-%_postun_webapp
+%if %mdkversion < 201000
+    %_postun_webapp
+%endif
 
 %files
 %defattr(-,root,root)
