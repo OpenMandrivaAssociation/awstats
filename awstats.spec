@@ -1,13 +1,17 @@
 Name:		awstats
 Version:	6.95
-Release:	%mkrel 3
+Release:	%mkrel 4
 Summary:	Advanced Web Statistics
 License:	GPLv2
 Group:		Networking/WWW
 URL:		http://awstats.sourceforge.net
 Source0:	http://prdownloads.sourceforge.net/awstats/%{name}-%{version}.tar.gz
 Patch0:		awstats-6.9-better-configuration.patch
-Requires:	apache
+Requires:	webserver
+%if %mdkversion < 201010
+Requires(post):   rpm-helper
+Requires(postun):   rpm-helper
+%endif
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
@@ -89,12 +93,12 @@ if [ $1 -eq 1 ]; then
 	perl -pi -e 's/SiteDomain=""/SiteDomain="'`hostname`'"/' %{_sysconfdir}/%{name}/%{name}.conf
 fi
 %if %mdkversion < 201000
-    %_post_webapp
+%_post_webapp
 %endif
 
 %postun
 %if %mdkversion < 201000
-    %_postun_webapp
+%_postun_webapp
 %endif
 
 %files
