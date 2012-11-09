@@ -1,0 +1,47 @@
+--- awstats-6.9-orig/wwwroot/cgi-bin/awstats.model.conf	2008-10-05 13:01:32.000000000 +0200
++++ awstats-6.9/wwwroot/cgi-bin/awstats.model.conf	2008-12-29 20:50:47.000000000 +0100
+@@ -48,7 +48,7 @@
+ # If there are several log files from load balancing servers :
+ # Example: "/pathtotools/logresolvemerge.pl *.log |"
+ #
+-LogFile="/var/log/httpd/mylog.log"
++LogFile="/var/log/httpd/access_log"
+ 
+ 
+ # Enter the log file type you want to analyze.
+@@ -200,7 +200,7 @@
+ # Example: "C:/awstats_data_dir"
+ # Default: "."          (means same directory as awstats.pl)
+ #
+-DirData="."
++DirData="/var/lib/awstats"
+ 
+ 
+ # Relative or absolute web URL of your awstats cgi-bin directory.
+@@ -209,7 +209,7 @@
+ # Example: "/awstats"
+ # Default: "/cgi-bin"   (means awstats.pl is in "/yourwwwroot/cgi-bin")
+ #
+-DirCgi="/cgi-bin"
++DirCgi="/awstats"
+ 
+ 
+ # Relative or absolute web URL of your awstats icon directory.
+@@ -219,7 +219,7 @@
+ # Example: "../icon"
+ # Default: "/icon" (means you must copy icon directories in "/mywwwroot/icon")
+ #
+-DirIcons="/icon"
++DirIcons="/awstats/icon"
+ 
+ 
+ # When this parameter is set to 1, AWStats adds a button on report page to
+@@ -807,7 +807,7 @@
+ # Possible value: URL of javascript tracker file added in your HTML code.
+ # Default: "/js/awstats_misc_tracker.js"
+ #
+-MiscTrackerUrl="/js/awstats_misc_tracker.js"
++MiscTrackerUrl="/awstats/js/awstats_misc_tracker.js"
+ 
+ 
+ 
