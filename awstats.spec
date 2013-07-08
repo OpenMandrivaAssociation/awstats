@@ -44,9 +44,8 @@ cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
 
 Alias /awstats %{_datadir}/%{name}/www
 <Directory %{_datadir}/%{name}/www>
-    Order allow,deny
-    Allow from all
-
+	Require all granted
+    
     Options ExecCGI
     AddHandler cgi-script .pl
     DirectoryIndex awstats.pl
