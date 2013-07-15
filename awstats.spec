@@ -1,6 +1,6 @@
 Name:		awstats
 Version:	7.0
-Release:	%mkrel 1
+Release:	2
 Summary:	Advanced Web Statistics
 License:	GPLv2
 Group:		Networking/WWW
@@ -9,7 +9,6 @@ Source0:	http://prdownloads.sourceforge.net/awstats/%{name}-%{version}.tar.gz
 Patch0:		awstats-6.9-better-configuration.patch
 Requires:	webserver
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 Advanced Web Statistics is a powerful and featureful tool that generates
@@ -35,8 +34,6 @@ rm -f  wwwroot/cgi-bin/plugins/.#geoip_city_maxmind.pm.1.8
 %build
 
 %install
-rm -rf %{buildroot}
-
 # apache configuration
 install -d -m 755 %{buildroot}%{_webappconfdir}
 cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
@@ -81,7 +78,6 @@ cp -r wwwroot/cgi-bin/plugins %{buildroot}%{_datadir}/%{name}
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
 
 %clean
-rm -rf %{buildroot}
 
 %post
 if [ $1 -eq 1 ]; then
@@ -89,7 +85,6 @@ if [ $1 -eq 1 ]; then
 fi
 
 %files
-%defattr(-,root,root)
 %doc README.TXT docs/*
 %config(noreplace) %{_webappconfdir}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/%{name}
