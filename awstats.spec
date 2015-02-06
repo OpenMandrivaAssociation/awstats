@@ -1,6 +1,6 @@
 Name:		awstats
 Version:	7.0
-Release:	2
+Release:	3
 Summary:	Advanced Web Statistics
 License:	GPLv2
 Group:		Networking/WWW
