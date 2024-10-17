@@ -4,7 +4,7 @@ Release:	1
 Summary:	Advanced Web Statistics
 License:	GPLv2
 Group:		Networking/WWW
-URL:		http://awstats.sourceforge.net
+URL:		https://awstats.sourceforge.net
 Source0:	http://prdownloads.sourceforge.net/awstats/%{name}-%{version}.tar.gz
 Patch0:		awstats-6.9-better-configuration.patch
 Requires:	webserver
